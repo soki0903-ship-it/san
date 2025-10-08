@@ -1,0 +1,207 @@
+﻿<!DOCTYPE html>
+<html lang="mn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ШШГБ - Хууль, журам, стандартын сан</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { font-family: Arial, sans-serif; }
+    .search-input { max-width: 500px; margin: auto; }
+    .category-card {
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .category-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+    .result-card {
+      background: white;
+      padding: 16px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      transition: transform 0.2s;
+    }
+    .result-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+  </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+<header class="bg-blue-900 text-white p-4 text-center shadow">
+  <h1 class="text-2xl font-bold">ШШГБ - Хууль, журам, стандартын сан</h1>
+  <p class="mt-1">Алба хаагчдын цахим баримт сан</p>
+</header>
+
+<main class="max-w-6xl mx-auto mt-6 p-4">
+  <!-- Хайлтын хэсэг -->
+  <div class="search-input mb-6">
+    <input type="text" id="search" placeholder="Хайх үгээ бичнэ үү..." class="w-full p-2 border rounded" onkeyup="filterResults()">
+  </div>
+
+  <!-- Ангиллын карт товчлуурууд -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <button onclick="showCategory('Хорих ял эдлүүлэх ажиллагааны чиглэлээр')" class="category-card bg-gradient-to-r from-blue-500 to-blue-700 text-white p-6 rounded-lg shadow-lg flex flex-col items-center justify-center">
+      <img src="https://img.icons8.com/ios-filled/50/ffffff/prison.png" alt="Icon" class="mb-3">
+      <span class="text-lg font-bold text-center">Хорих ял эдлүүлэх ажиллагааны чиглэлээр</span>
+    </button>
+
+    <button onclick="showCategory('Баривчлах шийтгэл эдлүүлэх ажиллагааны чиглэлээр')" class="category-card bg-gradient-to-r from-green-500 to-green-700 text-white p-6 rounded-lg shadow-lg flex flex-col items-center justify-center">
+      <img src="https://img.icons8.com/ios-filled/50/ffffff/police-badge.png" alt="Icon" class="mb-3">
+      <span class="text-lg font-bold text-center">Баривчлах шийтгэл эдлүүлэх ажиллагааны чиглэлээр</span>
+    </button>
+
+    <!-- **Зассан: gavel/icon хэвлэгдэхгүй байсан тул inline SVG ашиглав** -->
+    <button onclick="showCategory('Шийдвэр гүйцэтгэх ажиллагааны чиглэлээр')" class="category-card bg-gradient-to-r from-purple-500 to-purple-700 text-white p-6 rounded-lg shadow-lg flex flex-col items-center justify-center">
+      <!-- inline gavel SVG -->
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mb-3 w-12 h-12" fill="currentColor" aria-hidden="true">
+        <path d="M14.7 3.3a1 1 0 0 1 1.4 0l3.6 3.6a1 1 0 0 1 0 1.4l-4.6 4.6-5-5 4.6-4.6zM2 20l6-2 8-8 2 2-8 8-8 2v-2z"/>
+      </svg>
+      <span class="text-lg font-bold text-center">Шийдвэр гүйцэтгэх ажиллагааны чиглэлээр</span>
+    </button>
+
+    <button onclick="showCategory('Хорихоос өөр төрлийн ял эдлүүлэх ажиллагааны чиглэлээр')" class="category-card bg-gradient-to-r from-red-500 to-red-700 text-white p-6 rounded-lg shadow-lg flex flex-col items-center justify-center">
+      <img src="https://img.icons8.com/ios-filled/50/ffffff/law-book.png" alt="Icon" class="mb-3">
+      <span class="text-lg font-bold text-center">Хорихоос өөр төрлийн ял эдлүүлэх ажиллагааны чиглэлээр</span>
+    </button>
+
+    <button onclick="showCategory('Албадан эмчлэх чиглэлээр')" class="category-card bg-gradient-to-r from-yellow-500 to-yellow-700 text-white p-6 rounded-lg shadow-lg flex flex-col items-center justify-center">
+      <img src="https://img.icons8.com/ios-filled/50/ffffff/hospital-room.png" alt="Icon" class="mb-3">
+      <span class="text-lg font-bold text-center">Албадан эмчлэх чиглэлээр</span>
+    </button>
+
+    <button onclick="showCategory('Санхүүгийн чиглэлээр')" class="category-card bg-gradient-to-r from-indigo-500 to-indigo-700 text-white p-6 rounded-lg shadow-lg flex flex-col items-center justify-center">
+      <img src="https://img.icons8.com/ios-filled/50/ffffff/money.png" alt="Icon" class="mb-3">
+      <span class="text-lg font-bold text-center">Санхүүгийн чиглэлээр</span>
+    </button>
+
+    <button onclick="showCategory('Захиргаа, удирдлагын чиглэлээр')" class="category-card bg-gradient-to-r from-pink-500 to-pink-700 text-white p-6 rounded-lg shadow-lg flex flex-col items-center justify-center">
+      <img src="https://img.icons8.com/ios-filled/50/ffffff/management.png" alt="Icon" class="mb-3">
+      <span class="text-lg font-bold text-center">Захиргаа, удирдлагын чиглэлээр</span>
+    </button>
+
+    <button onclick="showCategory('Хүний нөөцийн чиглэлээр')" class="category-card bg-gradient-to-r from-teal-500 to-teal-700 text-white p-6 rounded-lg shadow-lg flex flex-col items-center justify-center">
+      <img src="https://img.icons8.com/ios-filled/50/ffffff/teamwork.png" alt="Icon" class="mb-3">
+      <span class="text-lg font-bold text-center">Хүний нөөцийн чиглэлээр</span>
+    </button>
+
+    <!-- **Зассан: military/ikon алдаатай байсан тул inline SVG ашиглав** -->
+    <button onclick="showCategory('Цэргийн хэргийн мэдлэгийн чиглэлээр')" class="category-card bg-gradient-to-r from-gray-500 to-gray-700 text-white p-6 rounded-lg shadow-lg flex flex-col items-center justify-center">
+      <!-- inline military/badge SVG -->
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mb-3 w-12 h-12" fill="currentColor" aria-hidden="true">
+        <path d="M12 2l3 6 6 2-4.5 4.4L18 22l-6-3-6 3 .5-7.6L2 10l6-2 3-6z"/>
+      </svg>
+      <span class="text-lg font-bold text-center">Цэргийн хэргийн мэдлэгийн чиглэлээр</span>
+    </button>
+
+    <button onclick="showCategory('Шагнал урамшууллын чиглэлээр')" class="category-card bg-gradient-to-r from-orange-500 to-orange-700 text-white p-6 rounded-lg shadow-lg flex flex-col items-center justify-center">
+      <img src="https://img.icons8.com/ios-filled/50/ffffff/trophy.png" alt="Icon" class="mb-3">
+      <span class="text-lg font-bold text-center">Шагнал урамшууллын чиглэлээр</span>
+    </button>
+
+    <button onclick="showCategory('Ёс зүйн чиглэлээр')" class="category-card bg-gradient-to-r from-cyan-500 to-cyan-700 text-white p-6 rounded-lg shadow-lg flex flex-col items-center justify-center">
+      <img src="https://img.icons8.com/ios-filled/50/ffffff/ethics.png" alt="Icon" class="mb-3">
+      <span class="text-lg font-bold text-center">Ёс зүйн чиглэлээр</span>
+    </button>
+
+    <button onclick="showCategory('Шинээр томилогдсон алба хаагчдын чиглэлээр')" class="category-card bg-gradient-to-r from-lime-500 to-lime-700 text-white p-6 rounded-lg shadow-lg flex flex-col items-center justify-center">
+      <img src="https://img.icons8.com/ios-filled/50/ffffff/new-job.png" alt="Icon" class="mb-3">
+      <span class="text-lg font-bold text-center">Шинээр томилогдсон алба хаагчдын чиглэлээр</span>
+    </button>
+  </div>
+
+  <!-- Үр дүнгийн хэсэг -->
+  <section id="results" class="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <p class="text-gray-500 text-center col-span-full">Бүлгээ сонгон хууль, журам үзнэ үү.</p>
+  </section>
+</main>
+
+<footer class="text-center text-sm text-gray-500 mt-10 mb-6">
+  © 2025 Шүүхийн шийдвэр гүйцэтгэх байгууллага
+</footer>
+
+<script>
+const data = {
+  "Хорих ял эдлүүлэх ажиллагааны чиглэлээр": [
+    { name: "Хорих ангийн дотоод журам", type: "Журам", link: "docs/horih_juram.pdf" },
+    { name: "Ялтны хөдөлмөр эрхлэлттэй холбоотой дүрэм", type: "Дүрэм", link: "docs/hudulmurgiin_durem.pdf" }
+  ],
+  "Баривчлах шийтгэл эдлүүлэх ажиллагааны чиглэлээр": [
+    { name: "Баривчлах байрны дотоод журам", type: "Журам", link: "docs/barivchlah_juram.pdf" }
+  ],
+  "Шийдвэр гүйцэтгэх ажиллагааны чиглэлээр": [
+    { name: "Шүүхийн шийдвэр гүйцэтгэх тухай хууль", type: "Хууль", link: "docs/shuuh_huuli.pdf" }
+  ],
+  "Хорихоос өөр төрлийн ял эдлүүлэх ажиллагааны чиглэлээр": [
+    { name: "Хорихоос өөр төрлийн дотоод журам", type: "Журам", link: "docs/horih_oor_juram.pdf" }
+  ],
+  "Албадан эмчлэх чиглэлээр": [
+    { name: "Албадан эмчлэх тухай журам", type: "Журам", link: "docs/albadan_emchleh.pdf" }
+  ],
+  "Санхүүгийн чиглэлээр": [
+    { name: "Санхүүгийн дотоод журам", type: "Журам", link: "docs/sankhuugiin_juram.pdf" }
+  ],
+  "Захиргаа, удирдлагын чиглэлээр": [
+    { name: "Захиргаа, удирдлагын дотоод журам", type: "Журам", link: "docs/zakhirgaa_juram.pdf" }
+  ],
+  "Хүний нөөцийн чиглэлээр": [
+    { name: "Хүний нөөцийн дотоод журам", type: "Журам", link: "docs/hunii_noots_juram.pdf" }
+  ],
+  "Цэргийн хэргийн мэдлэгийн чиглэлээр": [
+    { name: "Цэргийн хэргийн дотоод журам", type: "Журам", link: "docs/tsergiin_juram.pdf" }
+  ],
+  "Шагнал урамшууллын чиглэлээр": [
+    { name: "Шагнал урамшууллын журам", type: "Журам", link: "docs/shagnal_juram.pdf" }
+  ],
+  "Ёс зүйн чиглэлээр": [
+    { name: "Ёс зүйн дотоод журам", type: "Журам", link: "docs/yos_zuin_juram.pdf" }
+  ],
+  "Шинээр томилогдсон алба хаагчдын чиглэлээр": [
+    { name: "Шинээр томилогдсон алба хаагчдын дотоод журам", type: "Журам", link: "docs/shineer_juram.pdf" }
+  ]
+};
+
+function showCategory(cat) {
+  const results = document.getElementById("results");
+  results.innerHTML = "";
+  if (!data[cat]) {
+    results.innerHTML = "<p class='text-center text-gray-500 col-span-full'>Мэдээлэл олдсонгүй.</p>";
+    return;
+  }
+  data[cat].forEach(item => {
+    const div = document.createElement("div");
+    div.className = "result-card";
+    div.innerHTML = `
+      <h2 class="text-lg font-semibold mb-2">${item.name}</h2>
+      <p class="text-sm text-gray-500 mb-2">Төрөл: ${item.type}</p>
+      <a href="${item.link}" target="_blank" class="text-blue-600 underline">Баримт үзэх</a>
+    `;
+    results.appendChild(div);
+  });
+}
+
+function filterResults() {
+  const query = document.getElementById("search").value.toLowerCase();
+  const results = document.getElementById("results");
+  results.innerHTML = "";
+  for (let cat in data) {
+    data[cat].forEach(item => {
+      if (item.name.toLowerCase().includes(query) || item.type.toLowerCase().includes(query)) {
+        const div = document.createElement("div");
+        div.className = "result-card";
+        div.innerHTML = `
+          <h2 class="text-lg font-semibold mb-2">${item.name}</h2>
+          <p class="text-sm text-gray-500 mb-2">Төрөл: ${item.type}</p>
+          <a href="${item.link}" target="_blank" class="text-blue-600 underline">Баримт үзэх</a>
+        `;
+        results.appendChild(div);
+      }
+    });
+  }
+}
+</script>
+
+</body>
+</html>
